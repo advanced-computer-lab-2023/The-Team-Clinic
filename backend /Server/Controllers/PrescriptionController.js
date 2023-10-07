@@ -43,13 +43,14 @@ exports.deletePrescription = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-// Find Prescription by patientID
-  exports.getPrescriptionwithPatientID = async (req, res) => {
-    try {
-      const Prescription = await Prescription.find({ patientID: req.params.patientID });
-      res.status(200).json(Prescription);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  }
 };
+
+// Find Prescription by patientID
+exports.getPrescriptionwithPatientID = async (req, res) => {
+  try {
+    const Prescriptions= await Prescription.find({PatientID: req.params.patientID}).exec();
+    res.status(200).json(Prescriptions);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+} 

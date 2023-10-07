@@ -7,6 +7,7 @@ router.post('/', PrescriptionController.createPrescription);
 router.get('/', PrescriptionController.getAllPrescriptions);
 router.put('/:id', PrescriptionController.updatePrescription);
 router.delete('/:id', PrescriptionController.deletePrescription);
-router.get('/:patientID', PrescriptionController.getPrescriptionwithPatientID);
+router.get('/:patientID', PrescriptionController.getPrescriptionwithPatientID );
+
 
 module.exports = router;
