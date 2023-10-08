@@ -23,10 +23,17 @@ db.once('open', () => {
 
 const UserRoutes = require('./Routes/UserRoutes');
 const healthPackageRoutes = require('./Routes/HealthPackageRoutes');
+const DoctorRoutes = require('./Routes/DoctorRoutes');
+const PatientRoutes = require('./Routes/PatientRoutes');
+
+
 
 
 app.use('/users', UserRoutes);
 app.use('/health-packages', healthPackageRoutes);
+app.use('/doctors', DoctorRoutes);
+app.use('/patients', PatientRoutes);
+
 
 
 const PORT = process.env.PORT || 3000;
