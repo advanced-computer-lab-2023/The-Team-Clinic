@@ -22,10 +22,11 @@ db.once('open', () => {
 
 
 const UserRoutes = require('./Routes/UserRoutes');
-
+const healthPackageRoutes = require('./Routes/HealthPackageRoutes');
 
 
 app.use('/users', UserRoutes);
+app.use('/health-packages', healthPackageRoutes);
 
 
 const PORT = process.env.PORT || 3000;
