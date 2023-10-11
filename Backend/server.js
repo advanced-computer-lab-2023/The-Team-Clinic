@@ -40,9 +40,9 @@ db.once('open', () => {
 });
 
 // Start the server on port
-const PORT = 4000;
+const PORT = 3000;
 app.listen(PORT, () => {
-  console.log('Server is running on port ${PORT}');
+  console.log('Server is running on port' , {PORT});
 });
 
 

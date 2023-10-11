@@ -22,7 +22,7 @@ const submitDrReq = async (req , res)=>{
     //res.json({mssg:'add a new request'})
 }
 
-//get all pharmcist Req
+//get all dr Req
 const getAllReq = async(req , res )=>{
     const allRequests = await drReqModel.find({}).sort({createdAt: -1})
     res.status(200).json(allRequests)
