@@ -14,7 +14,7 @@ function Prescription() {
     // Define a function to fetch prescription data
     const fetchPrescriptionData = async () => {
       try {
-        const response = await axios.get('http://localhost:2002/Prescription/2');
+        const response = await axios.get('http://localhost:3000/Prescription/2');
         if (response.status === 200) {
           const responseData = response.data.map((row) => ({
             ...row,
