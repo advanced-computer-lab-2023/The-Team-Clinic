@@ -10,7 +10,7 @@ import AppTable from './Components/AppTable';
 
 
 
-import Apppatpage from './Pages/apppagedoc';
+import Apppattpage from './Pages/apppagepat';
 
 
 
@@ -21,7 +21,7 @@ function App() {
   return (
    <Router>
 
-    <Apppatpage />
+    <Apppattpage />
    </Router>
   );
 }
