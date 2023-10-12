@@ -32,6 +32,10 @@ import AdminRequestsP from "./Pages/AdminReqPagePharm";
 import FamilyMember from "./Pages/DisplayPage";
 import Form from "./Pages/Form";
 import HealthRecords from "./Pages/HealthRecPage";
+import AppTable from "./Pages/appointmentsP";
+import AppTableP from "./Pages/appointmentsP";
+
+
 
 export default function Paths() {
   return (
@@ -70,6 +74,11 @@ export default function Paths() {
         <Route path="/pharmacist-requests" element={<AdminRequestsP />} /> 
         <Route path="/doctor-requests" element={<AdminRequestsD />} /> 
         <Route path="/health-recs" element={<HealthRecords />} /> 
+        <Route path="/appPageDoc" element={<AppTable />} /> 
+        <Route path="/appPagePatient" element={<AppTableP/>} /> 
+
+        
+
         
       </Routes>
     </Router>

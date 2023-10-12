@@ -32,16 +32,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Box, Button, TextField } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import AppBarComponent from '../Components/AppBar/AppbarDoctor';
+import AppBarComponent from '../Components/Appbar/AppbarPatientClinc';
 
-export default function AppTable() {
+export default function AppTableP() {
   const [apps, setApps] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
   const [dateFilterStart, setDateFilterStart] = useState(null);
   const [dateFilterEnd, setDateFilterEnd] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:2002/apps')
+    axios.get('http://localhost:3000/apps')
       .then((response) => {
         if (response.data) {
           const transformedData = response.data.map((item) => ({
