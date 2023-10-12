@@ -6,7 +6,8 @@ const PharmacistRoutes = require('./Routes/PharmacistRoutes');
 const PatientRoutes = require('./Routes/PatientRoutes');
 const AppsRoutes= require('./Routes/appointementsrouter')
 const healthPackageRoutes = require('./Routes/HealthPackageRoutes');
-
+const drReqRoutes = require('./Routes/drReqRoutes')
+const pharmcistReqRoutes = require('./Routes/pharmcistReqRoutes')
 const cors = require('cors');
 
 const app = express();
@@ -33,7 +34,8 @@ app.use('/pharmacists', PharmacistRoutes);
 app.use('/patients', PatientRoutes);
 app.use('/apps', AppsRoutes);
 app.use('/health-packages', healthPackageRoutes);
-
+app.use( '/api/drReq',drReqRoutes)
+app.use( '/api/pharmcistReq',pharmcistReqRoutes)
 // MongoDB Configuration
 const connectionString = "mongodb+srv://TheTeam:AclProj@aclpharmdb.ukxxvcp.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(connectionString, {

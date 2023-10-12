@@ -27,6 +27,8 @@ import UserManagement from "./Pages/UserManagement";
 import HealthPackages from "./Pages/HealthPackagesPage";
 import NewPackage from "./Pages/NewPackagePage";
 import UpdatePackage from "./Pages/UpdatePackage";
+import AdminRequestsD from "./Pages/AdminReqPageDoc";
+import AdminRequestsP from "./Pages/AdminReqPagePharm";
 
 export default function Paths() {
   return (
@@ -60,7 +62,10 @@ export default function Paths() {
         <Route path="/health-packages" element={<HealthPackages />} />
         <Route path="/new-package" element={<NewPackage />} />
         <Route path="/update-package/:id" element={<UpdatePackage />} /> 
+        <Route path="/pharmacist-requests" element={<AdminRequestsP />} /> 
+        <Route path="/doctor-requests" element={<AdminRequestsD />} /> 
 
+        
       </Routes>
     </Router>
   );
