@@ -29,6 +29,8 @@ import NewPackage from "./Pages/NewPackagePage";
 import UpdatePackage from "./Pages/UpdatePackage";
 import AdminRequestsD from "./Pages/AdminReqPageDoc";
 import AdminRequestsP from "./Pages/AdminReqPagePharm";
+import FamilyMember from "./Pages/DisplayPage";
+import Form from "./Pages/Form";
 
 export default function Paths() {
   return (
@@ -60,12 +62,13 @@ export default function Paths() {
         <Route path="/patientsTable" element={<PatientsTable />} />
         <Route path="/userManagement" element={<UserManagement />} />
         <Route path="/health-packages" element={<HealthPackages />} />
+        <Route path="/add-family-member" element={<Form />} />
         <Route path="/new-package" element={<NewPackage />} />
+        <Route path="/my-fam" element={<FamilyMember />} /> 
         <Route path="/update-package/:id" element={<UpdatePackage />} /> 
         <Route path="/pharmacist-requests" element={<AdminRequestsP />} /> 
         <Route path="/doctor-requests" element={<AdminRequestsD />} /> 
-
-        
+       
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
 
-const drReqModel = require('../models/drReqModel')
-const DrReq = require('../models/drReqModel')
+const drReqModel = require('../Models/drReqModel')
+const DrReq = require('../Models/drReqModel')
 const mongoose = require('mongoose')
 
 

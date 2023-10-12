@@ -6,18 +6,19 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 export default function Form() {
   const [formData, setFormData] = useState({
     name: '',
-    age: 0, 
+    age: 0,
     gender: 'Male',
     nationalid: '',
-    relationtopatient: '',
+    relationtopatient: 'Father', // Set a default value
   });
 
   const handleSubmit = () => {
-    axios.post('http://localhost:3000/family_members', formData)
-      .then(response => {
+    axios
+      .post('http://localhost:3000/family_members', formData)
+      .then((response) => {
         console.log('Response:', response.data);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
       });
   };
@@ -63,7 +64,7 @@ export default function Form() {
             fullWidth
             label="Age"
             variant="outlined"
-            type="number" 
+            type="number"
             name="age"
             value={formData.age}
             onChange={handleInputChange}
@@ -95,13 +96,13 @@ export default function Form() {
           />
         </div>
         <div style={{ marginBottom: '1rem' }}>
-        <TextField
+          <TextField
             fullWidth
-            label="relation to patient"
+            label="Relation to Patient"
             variant="outlined"
             select
             SelectProps={{ native: true }}
-            name="relation to patient"
+            name="relationtopatient"
             value={formData.relationtopatient}
             onChange={handleInputChange}
           >
@@ -110,7 +111,12 @@ export default function Form() {
             <option value="Children">Children</option>
           </TextField>
         </div>
-        <Button variant="contained" color="primary" startIcon={<PersonAddIcon />} onClick={handleSubmit}>
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<PersonAddIcon />}
+          onClick={handleSubmit}
+        >
           Submit Family Member
         </Button>
       </Container>
