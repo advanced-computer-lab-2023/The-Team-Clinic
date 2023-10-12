@@ -31,6 +31,7 @@ import AdminRequestsD from "./Pages/AdminReqPageDoc";
 import AdminRequestsP from "./Pages/AdminReqPagePharm";
 import FamilyMember from "./Pages/DisplayPage";
 import Form from "./Pages/Form";
+import HealthRecords from "./Pages/HealthRecPage";
 
 export default function Paths() {
   return (
@@ -68,7 +69,8 @@ export default function Paths() {
         <Route path="/update-package/:id" element={<UpdatePackage />} /> 
         <Route path="/pharmacist-requests" element={<AdminRequestsP />} /> 
         <Route path="/doctor-requests" element={<AdminRequestsD />} /> 
-       
+        <Route path="/health-recs" element={<HealthRecords />} /> 
+        
       </Routes>
     </Router>
   );

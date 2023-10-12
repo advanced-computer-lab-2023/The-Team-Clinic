@@ -9,6 +9,7 @@ const healthPackageRoutes = require('./Routes/HealthPackageRoutes');
 const drReqRoutes = require('./Routes/drReqRoutes')
 const pharmcistReqRoutes = require('./Routes/pharmcistReqRoutes');
 const FamilyMemberRoutes = require('./Routes/FamilyMemberRoutes');
+const HealthRecRoutes = require('./Routes/HealthRecRoutes.js');
 const cors = require('cors');
 
 const app = express();
@@ -38,6 +39,7 @@ app.use('/health-packages', healthPackageRoutes);
 app.use( '/api/drReq',drReqRoutes);
 app.use( '/api/pharmcistReq',pharmcistReqRoutes);
 app.use('/family_members', FamilyMemberRoutes);
+app.use('/HealthRecords',HealthRecRoutes);
 
 // MongoDB Configuration
 const connectionString = "mongodb+srv://TheTeam:AclProj@aclpharmdb.ukxxvcp.mongodb.net/?retryWrites=true&w=majority";

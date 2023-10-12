@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
 import axios from 'axios';
-import AppbarDoctor from './Components/Appbar/AppbarDoctor';
+import AppbarDoctor from '../Components/Appbar/AppbarDoctor';
 import { useNavigate } from 'react-router-dom';
 
 const PageContainer = styled('div')({
@@ -61,7 +61,7 @@ function HealthRecords() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:2002/HealthRecords') // Adjust the URL as needed
+      .get('http://localhost:3000/HealthRecords') // Adjust the URL as needed
       .then((response) => {
         setHealthRecords(response.data);
       })
