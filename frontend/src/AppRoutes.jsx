@@ -52,6 +52,7 @@ import HealthPackagesView from "./Pages/HealthPackagesView";
 import Otp from "./Pages/otp";
 import ChangePassword from "./Pages/changepassword";
 import ChangePasswordTwo from "./Pages/changePasswordTwo";
+import Notifications from "./Pages/notif";
 
 export default function Paths() {
   return (
@@ -113,6 +114,7 @@ export default function Paths() {
         <Route path="/otp/:username" element={<Otp/>} />
         <Route path="/changepass/:username"element={<ChangePassword/>} />
         <Route path="/changepassTwo/:id"element={<ChangePasswordTwo/>} />
+        <Route path="/confirmation/:id"element={<Notifications/>} />
       </Routes>
     </Router>
   );

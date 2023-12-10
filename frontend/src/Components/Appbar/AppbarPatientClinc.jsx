@@ -182,6 +182,13 @@ function AppBarComponent({ userName}) {
               to={`/walletclinic/${id}`}
               selected={location.pathname === `/walletclinic/${id}`}
             />
+            <Tab
+              label="My notif"
+              sx={tabStyle}
+              component={Link}
+              to={`/confirmation/${id}`}
+              selected={location.pathname === `/confirmation/${id}`}
+            />
           </Tabs>
         </div>
       </AppBar>

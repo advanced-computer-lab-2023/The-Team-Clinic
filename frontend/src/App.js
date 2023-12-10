@@ -5,7 +5,7 @@ import React from 'react';
 import Paths from './AppRoutes';
 import ChangePassword from './Pages/changepassword';
 import Otp from './Pages/otp';
-
+import Notifications from './Pages/notif';
 function App() {
  
   return (

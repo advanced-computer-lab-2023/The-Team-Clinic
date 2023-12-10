@@ -1,6 +1,10 @@
 const mongoose= require('mongoose');
 const appointement = require('../Models/appointements');
 const patients = require('../Models/patients');
+//const Notification = require('../Models/notification'); // Import the Notification model
+const Notification = require('../Models/notifications');
+
+
 
 exports.createAppointment = async (req, res) => {
   try {
@@ -12,6 +16,44 @@ exports.createAppointment = async (req, res) => {
   }
 };
 
+async function createNotification(receiver, time, content, title) {
+  try {
+    const newNotification = new Notification({
+      receiver,
+      time,
+      content,
+      title
+    });
+
+    return await newNotification.save();
+  } catch (err) {
+    throw new Error('Error creating notification: ' + err.message);
+  }
+}
+
+// exports.getallNoificationsPatient = async (req, res) => {
+//   try {
+//     const patientId = req.params.receiver;
+//     const patientnotif = await Notification.find({ receiver: patientId })
+      
+//     res.status(200).json(patientnotif);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// };
+
+// exports.getallNoificationsPatient = async (req, res) => {
+//   try {
+//     const patientId = req.params.id;
+
+//     // Find all notifications where the receiver is the specified patient ID
+//     const patientNotifications = await Notification.find({ receiver: patientId });
+
+//     res.status(200).json(patientNotifications);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
 
 exports.getallappointementsPatient = async (req, res) => {
   try {
@@ -99,7 +141,17 @@ exports.createUpcomingAppointment = async (req, res) => {
       date: new Date(date),
     });
     const savedAppointment = await newAppointment.save();
-    res.status(201).json(savedAppointment);
+    const newNotification = new Notification({
+      receiver: patient._id, // Assuming you want to notify the patient
+      time: new Date(), // Current time as the notification time
+      content: `You have an appointment with ${appointment.doctor.name} on ${appointment.date}`, // Customize this message as needed
+      title: 'Confirmed', // Or use a relevant title from your enum
+    });
+    const trendNotification=await newNotification.save();
+
+
+    res.status(201).json({ appointment: savedAppointment, Notification: trendNotification });
+
   } catch (err) {
     res.status(500).json(err);
   }
