@@ -12,21 +12,6 @@ router.get('/doctor/:id', appoincontroller.getallappointementsDoctor);
 router.put('/:id', appoincontroller.updateappointements);
 router.delete('/:id', appoincontroller.deleteappointement);
 router.post('/create-upcoming-appointment', appoincontroller.createUpcomingAppointment);
-//router.get('/notifications/:id', appoincontroller.getallappointementsPatient);
-
-//router.post('/create-notification',appoincontroller.createNotification);
-
-router.get('/patient-notifications/:id', async (req, res) => {
-    try {
-      const patientId = req.params.id;
-  
-      // Find all notifications where the receiver is the specified patient ID
-      const patientNotifications = await Notification.find({ receiver: patientId });
-  
-      res.status(200).json(patientNotifications);
-    } catch (err) {
-      res.status(500).json({ message: err.message });
-    }
-  });
-
+router.post('/lastAppointment', appoincontroller.getlastappointement);
+router.get('/receiver/:receiverId', appoincontroller.getNotificationsByReceiver);
 module.exports = router;
