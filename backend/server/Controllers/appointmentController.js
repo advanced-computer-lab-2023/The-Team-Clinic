@@ -1,6 +1,7 @@
 const mongoose= require('mongoose');
 const appointement = require('../Models/appointements');
 const patients = require('../Models/patients');
+const Notif=require('../Models/notif');
 
 exports.createAppointment = async (req, res) => {
   try {
@@ -104,5 +105,78 @@ exports.createUpcomingAppointment = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+
+exports.getlastappointement = async (req, res) => {
+  try {
+    // Retrieve the patient ID from the request body
+    const patientId = req.body.id;
+
+    if (!patientId) {
+      return res.status(400).json({ message: "Patient ID is required" });
+    }
+
+    // Query to find the last appointment and populate both patient and doctor
+    const lastPatientAppointment = await appointement.findOne({ patient: patientId })
+      .sort({ date: -1 }) // Assuming 'date' is the field to sort by
+      .populate('patient') // Populating patient information
+      .populate('doctor'); // Populating doctor information
+
+    // Check if an appointment was found
+    if (lastPatientAppointment) {
+      res.status(200).json(lastPatientAppointment);
+
+      // Create a notification for the patient
+      const patientNotif = new Notif({
+        receiver: patientId,
+        onModel: 'patients',
+        title: 'Confirmed',
+        content: {
+          patientUsername: lastPatientAppointment.patient.username, // Now it should be populated
+          doctorUsername: lastPatientAppointment.doctor.username,
+          appointmentTime: lastPatientAppointment.date
+        }
+      });
+
+      // Create a notification for the doctor
+      const doctorNotif = new Notif({
+        receiver: lastPatientAppointment.doctor._id,
+        onModel: 'doctors',
+        title: 'Confirmed',
+        content: {
+          patientUsername: lastPatientAppointment.patient.username, // Now it should be populated
+          doctorUsername: lastPatientAppointment.doctor.username,
+          appointmentTime: lastPatientAppointment.date
+        }
+      });
+
+      // Save the notifications
+      await patientNotif.save();
+      await doctorNotif.save();
+
+    } else {
+      res.status(404).json({ message: "No appointments found for this patient" });
+    }
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+// notificationsController.js
+
+
+exports.getNotificationsByReceiver = async (req, res) => {
+    try {
+        const receiverId = req.params.receiverId;
+        const notifications = await Notif.find({ receiver: receiverId });
+        res.json(notifications);
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+};
+
+
+
+
 
 
