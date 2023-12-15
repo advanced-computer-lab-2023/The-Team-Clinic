@@ -24,7 +24,7 @@ const PatientPackagesRoutes = require('./Routes/PatientPackagesRoutes');
 const authroutes = require('./Routes/authenticationRoutes');
 const EmploymentContract= require('./Routes/EmploymentContractRoutes.js');
 const OrderRoutes=require("./Routes/OrderRouter.js")
-const notificationsRoutes=require("./Routes/notifications.js")
+//const notificationsRoutes=require("./Routes/notifications.js")
 const cors = require('cors');
 
 const app = express();
@@ -67,7 +67,7 @@ app.use('/admin',Adminroutes);
 app.use('/', authroutes)
 app.use('/employmentContract',EmploymentContract);
 app.use("/Order",OrderRoutes);
-app.use('/',notificationsRoutes);
+//app.use('/',notificationsRoutes);
 
 const stripe = require('stripe')(process.env.STRIPE_PRIVATE_KEY)
 const Packages = require('./Models/PatientPackages'); 

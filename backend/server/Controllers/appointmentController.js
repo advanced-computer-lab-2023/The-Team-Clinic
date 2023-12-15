@@ -181,52 +181,128 @@ exports.createUpcomingAppointment = async (req, res) => {
 };
 
 
+// exports.getlastappointement = async (req, res) => {
+//   try {
+//     // Retrieve the patient ID from the request body
+//     const patientId = req.body.id;
+
+//     if (!patientId) {
+//       return res.status(400).json({ message: "Patient ID is required" });
+//     }
+
+//     // Query to find the last appointment and populate both patient and doctor
+//     const lastPatientAppointment = await appointement.findOne({ patient: patientId })
+//       .sort({ date: -1 }) // Assuming 'date' is the field to sort by
+//       .populate('patient') // Populating patient information
+//       .populate('doctor'); // Populating doctor information
+
+//     // Check if an appointment was found
+//     if (lastPatientAppointment) {
+//       res.status(200).json(lastPatientAppointment);
+
+//       // Create a notification for the patient
+//       const patientNotif = new Notif({
+//         receiver: patientId,
+//         onModel: 'patients',
+//         title: 'Confirmed',
+//         content: {
+//           patientUsername: lastPatientAppointment.patient.username, // Now it should be populated
+//           doctorUsername: lastPatientAppointment.doctor.username,
+//           appointmentTime: lastPatientAppointment.date
+//         }
+//       });
+
+//       // Create a notification for the doctor
+//       const doctorNotif = new Notif({
+//         receiver: lastPatientAppointment.doctor._id,
+//         onModel: 'doctors',
+//         title: 'Confirmed',
+//         content: {
+//           patientUsername: lastPatientAppointment.patient.username, // Now it should be populated
+//           doctorUsername: lastPatientAppointment.doctor.username,
+//           appointmentTime: lastPatientAppointment.date
+//         }
+//       });
+
+//       // Save the notifications
+//       await patientNotif.save();
+//       await doctorNotif.save();
+
+//     } else {
+//       res.status(404).json({ message: "No appointments found for this patient" });
+//     }
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// };
+const nodemailer = require('nodemailer');
+
+// NodeMailer transporter configuration
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'Marwantest70@gmail.com',
+    pass: 'zech uxtr bhsu zbec'
+  }
+});
+
 exports.getlastappointement = async (req, res) => {
   try {
-    // Retrieve the patient ID from the request body
     const patientId = req.body.id;
-
     if (!patientId) {
       return res.status(400).json({ message: "Patient ID is required" });
     }
 
-    // Query to find the last appointment and populate both patient and doctor
     const lastPatientAppointment = await appointement.findOne({ patient: patientId })
-      .sort({ date: -1 }) // Assuming 'date' is the field to sort by
-      .populate('patient') // Populating patient information
-      .populate('doctor'); // Populating doctor information
+      .sort({ date: -1 })
+      .populate('patient')
+      .populate('doctor');
 
-    // Check if an appointment was found
     if (lastPatientAppointment) {
       res.status(200).json(lastPatientAppointment);
 
-      // Create a notification for the patient
       const patientNotif = new Notif({
         receiver: patientId,
         onModel: 'patients',
         title: 'Confirmed',
         content: {
-          patientUsername: lastPatientAppointment.patient.username, // Now it should be populated
+          patientUsername: lastPatientAppointment.patient.username,
           doctorUsername: lastPatientAppointment.doctor.username,
           appointmentTime: lastPatientAppointment.date
         }
       });
 
-      // Create a notification for the doctor
       const doctorNotif = new Notif({
         receiver: lastPatientAppointment.doctor._id,
         onModel: 'doctors',
         title: 'Confirmed',
         content: {
-          patientUsername: lastPatientAppointment.patient.username, // Now it should be populated
+          patientUsername: lastPatientAppointment.patient.username,
           doctorUsername: lastPatientAppointment.doctor.username,
           appointmentTime: lastPatientAppointment.date
         }
       });
 
-      // Save the notifications
       await patientNotif.save();
       await doctorNotif.save();
+
+      // Prepare and send email to the patient
+      const patientEmailContent = `Dear ${lastPatientAppointment.patient.username},\n\nYour appointment is confirmed.\nDoctor: ${lastPatientAppointment.doctor.username}\nTime: ${lastPatientAppointment.date}`;
+      transporter.sendMail({
+        from: 'Marwantest70@gmail.com',
+        to: lastPatientAppointment.patient.email, // Assuming patient's email is available
+        subject: 'Appointment Confirmation',
+        text: patientEmailContent
+      });
+
+      // Prepare and send email to the doctor
+      const doctorEmailContent = `Dear ${lastPatientAppointment.doctor.username},\n\nYou have a confirmed appointment.\nPatient: ${lastPatientAppointment.patient.username}\nTime: ${lastPatientAppointment.date}`;
+      transporter.sendMail({
+        from: 'Marwantest70@gmail.com',
+        to: lastPatientAppointment.doctor.email, // Assuming doctor's email is available
+        subject: 'Appointment Confirmation',
+        text: doctorEmailContent
+      });
 
     } else {
       res.status(404).json({ message: "No appointments found for this patient" });

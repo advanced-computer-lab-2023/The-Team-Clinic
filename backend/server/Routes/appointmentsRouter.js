@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const appoincontroller = require('../Controllers/appointmentController');
-const Notification = require('../Models/notifications'); 
+//const Notification = require('../Models/notifications'); 
 
 router.post('/', appoincontroller.createAppointment);
 router.get('/available-appointments', appoincontroller.getAvailableAppointments);
