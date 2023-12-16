@@ -1,4 +1,6 @@
 const Wallet = require('../Models/Wallet');
+const appointmentModel = require('../Models/appointements');
+const patientsModel = require('../Models/patients');
 
 exports.createWallet = async (req, res) => {
   try {
@@ -87,6 +89,67 @@ exports.handleWalletPayment = async (req, res) => {
     }
   } catch (error) {
     console.error('Error processing wallet payment:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// exports.refundpatient = async (req, res) => {
+//   try {
+//     const patientId=req.params;
+//     const { appointmentId, userId } = req.body;
+
+//     // Fetch user's wallet balance from the database
+//     const user = await userModel.findById(patientId);
+    
+//     const walletBalance = user.walletBalance;
+
+//     // You may need to fetch the appointment price from the database
+//     const appointmentPrice = 200; 
+
+//     // Check if the user has sufficient balance
+//     if (walletBalance >= appointmentPrice || walletBalance < appointmentPrice) {
+//       // Deduct the price from the user's wallet balance
+//       const updatedWalletBalance = walletBalance + appointmentPrice;
+
+//       // Update the user's wallet balance in the database
+//       await userModel.findByIdAndUpdate(userId, { walletBalance: updatedWalletBalance });
+
+//       console.log(`Wallet payment successful for appointment ${appointmentId} by user ${userId}`);
+//       res.status(200).json({ message: 'Wallet payment successful' });
+//     } else {
+//       // Insufficient balance
+//       res.status(400).json({ message: 'Insufficient wallet balance' });
+//     }
+//   } catch (error) {
+//     console.error('Error processing wallet payment:', error);
+//     res.status(500).json({ message: 'Internal server error' });
+//   }
+// };
+exports.refundPatient = async (req, res) => {
+  try {
+    const { appointmentId } = req.params;
+
+    // Fetch the appointment and patient details from the database
+    const appointment = await appointmentModel.findById(appointmentId);
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found' });
+    }
+    const patientId = appointment.patient._id;
+    const patient = await patientsModel.findById(patientId);
+
+    // You may need to fetch the appointment cancellation fee from the database or the appointment itself
+    const cancellationFee = appointment.cancellationFee || 200; // Assuming a default value
+
+    // Refund the cancellation fee to the patient's wallet
+    const updatedWalletBalance = patient.walletBalance + cancellationFee;
+
+    // Update the patient's wallet balance in the database
+    await patientsModel.findByIdAndUpdate(patientId, { walletBalance: updatedWalletBalance });
+
+    console.log(`Refund successful for cancelled appointment ${appointmentId} to patient ${patientId}`);
+    res.status(200).json({ message: 'Refund successful' });
+  } catch (error) {
+    console.error('Error processing refund:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 };
