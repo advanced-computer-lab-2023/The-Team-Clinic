@@ -13,20 +13,20 @@ exports.createAppointment = async (req, res) => {
   }
 };
 
-async function createNotification(receiver, time, content, title) {
-  try {
-    const newNotification = new Notification({
-      receiver,
-      time,
-      content,
-      title
-    });
+// async function createNotification(receiver, time, content, title) {
+//   try {
+//     const newNotification = new Notification({
+//       receiver,
+//       time,
+//       content,
+//       title
+//     });
 
-    return await newNotification.save();
-  } catch (err) {
-    throw new Error('Error creating notification: ' + err.message);
-  }
-}
+//     return await newNotification.save();
+//   } catch (err) {
+//     throw new Error('Error creating notification: ' + err.message);
+//   }
+// }
 
 // exports.getallNoificationsPatient = async (req, res) => {
 //   try {
@@ -150,7 +150,7 @@ exports.getAvailableAppointments = async (req, res) => {
   }
 };
 
-exports.createUpcomingAppointment = async (req, res) => {
+exports.createUpcomingAppointment = async (req, res) => { //do not use(call) or delete
   try {
     const { doctor, patientName, date } = req.body;
     const patient = await patients.findOne({ fullName: patientName });
@@ -246,7 +246,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-exports.getlastappointement = async (req, res) => {
+exports.getlastappointement = async (req, res) => { //use this for notifications (mail and system) for both recievers
   try {
     const patientId = req.body.id;
     if (!patientId) {

@@ -20,6 +20,7 @@ const medsSchema = new mongoose.Schema({
   availableQuantity: {
     type: Number,
     required: true,
+    default:0,
   },
   medicalUse: {
     type: String,

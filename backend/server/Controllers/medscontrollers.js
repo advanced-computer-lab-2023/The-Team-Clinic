@@ -1,5 +1,5 @@
 const meds = require('../Models/meds.js');
-
+const notifcontroller = require('../Controllers/notifControllers');
 exports.createmeds = async (req, res) => {
   try {
     const newmed = new meds(req.body);
@@ -129,6 +129,38 @@ exports.getMedicationById = async (req, res) => {
   } catch (err) {
     console.error(`Error fetching medication by ID: ${err}`);
     res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.deductQuantity = async (req, res) => {
+  try {
+    const { medicationId } = req.params;
+    const { quantity } = req.body;
+
+    const medication = await meds.findById(medicationId);
+
+    if (!medication) {
+      return res.status(404).json({ message: 'Medication not found' });
+    }
+
+    if (medication.availableQuantity < quantity) {
+      return res.status(400).json({ message: 'Insufficient quantity in inventory' });
+    }
+
+    // Deduct the quantity from the inventory
+    medication.availableQuantity -= quantity;
+
+    // Save the updated medication
+    await medication.save();
+    if (medication.availableQuantity === 0) {
+      await notifcontroller.addNotificationPharm({ body: { content: medication.name } });
+      
+    }
+
+
+    res.status(200).json({ message: 'Quantity deducted successfully' });
+  } catch (err) {
+    res.status(500).json(err);
   }
 };
 

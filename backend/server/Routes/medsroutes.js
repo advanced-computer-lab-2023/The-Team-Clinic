@@ -17,5 +17,5 @@ router.put('/updatePrice/:id', medController.updatePrice);
 router.get('/:medicationId', medController.getMedicationById);
 // Route for updating picture with file upload
 router.put('/updatePicture/:id', upload.single('file'), medController.updatePicture);
-
+router.put('/deduct-quantity/:medicationId', medController.deductQuantity);
 module.exports = router;
